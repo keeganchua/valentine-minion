@@ -63,7 +63,7 @@
     <div class="minion">
       <img src="minion-minion-loves.gif" alt="Minion with heart" style="max-width: 250px; border-radius: 8px;">
     </div>
-    <h1>Will you be my Valentine, Minion?</h1>
+    <h1>Will you be my Valentine?</h1>
     <p id="question-text">Choose wisely.</p>
     <div id="buttons">
       <button class="btn btn-yes" onclick="answerYes()">Yes</button>
@@ -73,19 +73,40 @@
   </div>
 
   <script>
-    function answerYes() {
-      document.getElementById("question-text").textContent =
-        "BANANA! I knew you'd say yes 💛";
-      document.getElementById("buttons").classList.add("hidden");
-      const result = document.getElementById("result");
-      result.textContent = "Screenshot this and send it back to me.";
-      result.classList.remove("hidden");
-    }
+  let noClickCount = 0;
 
-    function answerNo() {
-      document.getElementById("question-text").textContent =
-        "Minion sad noises... try again? 🙃";
-    }
-  </script>
+  function answerYes() {
+    document.getElementById("question-text").textContent =
+      "BANANA! I knew you'd say yes 💛";
+    document.getElementById("buttons").classList.add("hidden");
+    const result = document.getElementById("result");
+    result.textContent = "Screenshot this and send it back to me.";
+    result.classList.remove("hidden");
+  }
+
+  function answerNo() {
+    noClickCount++;
+    
+    // Make "Yes" button bigger each time
+    const yesButton = document.querySelector(".btn-yes");
+    const newSize = 14 + (noClickCount * 4); // Grows by 4px each click
+    yesButton.style.fontSize = newSize + "px";
+    yesButton.style.padding = (10 + noClickCount * 3) + "px " + (18 + noClickCount * 5) + "px";
+    
+    // Change the question text
+    const messages = [
+      "Are you sure? 🥺",
+      "Really? Think again... 😢",
+      "The Minion is sad now 😭",
+      "Please reconsider? 🙏",
+      "You're breaking my heart... 💔",
+      "Last chance! 😤"
+    ];
+    
+    const messageIndex = Math.min(noClickCount - 1, messages.length - 1);
+    document.getElementById("question-text").textContent = messages[messageIndex];
+  }
+</script>
+
 </body>
 </html>
